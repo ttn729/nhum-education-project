@@ -78,9 +78,38 @@ export const Parsing = () => {
           ? error
           : data.map((col, idx) => (
               <div key={idx}>
-                <p>{idx + 1}. {col.Question}</p>
-                <p>A. {col.Choice1} &emsp; B. {col.Choice2} &emsp; C. {col.Choice3} &emsp; D. {col.Choice4}</p>
-                <br/>
+                {col.QuestionType === "MC" ? (
+                  <>
+                    <p>
+                      {idx + 1}. {col.Question}
+                    </p>
+                    <p>
+                      A. {col.Choice1} &emsp; B. {col.Choice2} &emsp; C.{" "}
+                      {col.Choice3} &emsp; D. {col.Choice4}
+                    </p>
+                    <br />
+                  </>
+                ) : col.QuestionType === "TL" ? (
+                  <>
+                    <p>
+                      {idx + 1}. {col.Question}
+                    </p>
+                    <p>{".".repeat(col.Question.length * 1.5)}</p>
+                    <br />
+                  </>
+                ) : col.QuestionType === "Prompt" ? (
+                    <>
+                      <p>
+                        {idx + 1}. {col.Question}
+                      </p>
+                      <p>{col.Prompt} {".".repeat(col.Question.length * 1.5)}</p>
+                      <br />
+                    </>
+                  ) : (
+                  <p>
+                    {idx + 1}. {col.Question}
+                  </p>
+                )}
               </div>
             ))}
       </div>
