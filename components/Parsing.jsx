@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
+import MultipleChoiceQuestion from "./MultipleChoiceQuestions";
+import MUIChoiceQuestion from "./MUIChoiceQuestion";
+import { FormControlLabel, Checkbox, Button, TextField } from "@mui/material";
 
 // Allowed extensions for input file
 const allowedExtensions = ["csv"];
@@ -14,6 +17,8 @@ export const Parsing = () => {
 
   // It will store the file uploaded by the user
   const [file, setFile] = useState("");
+
+  const [onlineMode, setOnlineMode] = React.useState(false);
 
   // This function will be called when
   // the file input changes
@@ -71,7 +76,12 @@ export const Parsing = () => {
         type="File"
       />
       <div>
-        <button onClick={handleParse}>Parse</button>
+        <Button onClick={handleParse}>Parse</Button>
+        <FormControlLabel
+          control={<Checkbox defaultChecked />}
+          onChange={(e) => setOnlineMode(e.target.checked)}
+          label="Online"
+        />
       </div>
       <div style={{ marginTop: "3rem" }}>
         {error
@@ -80,13 +90,30 @@ export const Parsing = () => {
               <div key={idx}>
                 {col.QuestionType === "MC" ? (
                   <>
-                    <p>
-                      {idx + 1}. {col.Question}
-                    </p>
-                    <p>
-                      A. {col.Choice1} &emsp; B. {col.Choice2} &emsp; C.{" "}
-                      {col.Choice3} &emsp; D. {col.Choice4}
-                    </p>
+                    {!onlineMode && (
+                      <>
+                        <p>
+                          {idx + 1}. {col.Question}
+                        </p>
+                        <p>
+                          A. {col.Choice1} &emsp; B. {col.Choice2} &emsp; C.
+                          {col.Choice3} &emsp; D. {col.Choice4}
+                        </p>
+                      </>
+                    )}
+                    {onlineMode && (
+                      <MUIChoiceQuestion
+                        key={idx}
+                        questionNumber={idx + 1}
+                        question={col.Question}
+                        choices={[
+                          col.Choice1,
+                          col.Choice2,
+                          col.Choice3,
+                          col.Choice4,
+                        ]}
+                      />
+                    )}
                     <br />
                   </>
                 ) : col.QuestionType === "TL" ? (
@@ -95,17 +122,23 @@ export const Parsing = () => {
                       {idx + 1}. {col.Question}
                     </p>
                     <p>{".".repeat(col.Question.length * 1.5)}</p>
+                    <TextField fullWidth />
                     <br />
+
+                    
                   </>
                 ) : col.QuestionType === "Prompt" ? (
-                    <>
-                      <p>
-                        {idx + 1}. {col.Question}
-                      </p>
-                      <p>{col.Prompt} {".".repeat(col.Question.length * 1.5)}</p>
-                      <br />
-                    </>
-                  ) : (
+                  <>
+                    <p>
+                      {idx + 1}. {col.Question}
+                    </p>
+                    <p>
+                      {col.Prompt} {".".repeat(col.Question.length * 1.5)}
+                    </p>
+                    <TextField fullWidth />
+                    <br />
+                  </>
+                ) : (
                   <p>
                     {idx + 1}. {col.Question}
                   </p>
