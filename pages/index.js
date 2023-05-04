@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Parsing } from "@/components/Parsing";
 import { Inter } from "next/font/google";
 import OfflineMode from "@/components/OfflineMode";
+import OnlineMode from "@/components/OnlineMode";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,9 @@ export default function Home() {
     >
       <Parsing setData={setData} setOnlineMode={setOnlineMode} setError={setError} />
 
-      <OfflineMode data={data} onlineMode={onlineMode} error={error} />
+      {!onlineMode && <OfflineMode data={data} error={error} />}
+
+      {onlineMode && <OnlineMode data={data} error={error} />}
     </main>
   );
 }

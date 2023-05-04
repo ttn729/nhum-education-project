@@ -1,5 +1,7 @@
+import { TextField } from "@mui/material";
+import MUIChoiceQuestion from "./MUIChoiceQuestion";
 
-export default function OfflineMode({ data, error }) {
+export default function OnlineMode({ data, error }) {
   return (
     <div style={{ marginTop: "3rem" }}>
       {error
@@ -8,14 +10,17 @@ export default function OfflineMode({ data, error }) {
             <div key={idx}>
               {col.QuestionType === "MC" ? (
                 <>
-                  <p>
-                    {idx + 1}. {col.Question}
-                  </p>
-                  <p>
-                    A. {col.Choice1} &emsp; B. {col.Choice2} &emsp; C.
-                    {col.Choice3} &emsp; D. {col.Choice4}
-                  </p>
-
+                    <MUIChoiceQuestion
+                      key={idx}
+                      questionNumber={idx + 1}
+                      question={col.Question}
+                      choices={[
+                        col.Choice1,
+                        col.Choice2,
+                        col.Choice3,
+                        col.Choice4,
+                      ]}
+                    />
                   <br />
                 </>
               ) : col.QuestionType === "TL" ? (
@@ -24,6 +29,7 @@ export default function OfflineMode({ data, error }) {
                     {idx + 1}. {col.Question}
                   </p>
                   <p>{".".repeat(col.Question.length * 1.5)}</p>
+                  <TextField fullWidth />
                   <br />
                 </>
               ) : col.QuestionType === "Prompt" ? (
@@ -34,6 +40,7 @@ export default function OfflineMode({ data, error }) {
                   <p>
                     {col.Prompt} {".".repeat(col.Question.length * 1.5)}
                   </p>
+                  <TextField fullWidth />
                   <br />
                 </>
               ) : (
