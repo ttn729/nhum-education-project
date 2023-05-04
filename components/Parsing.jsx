@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
+import toast from 'react-hot-toast';
 import { FormControlLabel, Checkbox, Button } from "@mui/material";
 
 // Allowed extensions for input file
@@ -37,6 +38,8 @@ export const Parsing = ({setData, setOnlineMode, setError}) => {
     // If user clicks the parse button without
     // a file we show a error
     if (!file) return setError("Enter a valid file");
+
+    toast.success("Parsed sucessfully!")
 
     // Initialize a reader which allows user
     // to read any file or blob.

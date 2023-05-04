@@ -1,11 +1,12 @@
 import React from "react";
 import { FormControl, FormControlLabel, Radio, RadioGroup } from "@mui/material";
 
-function MUIChoiceQuestion({ questionNumber, question, choices }) {
+function MUIChoiceQuestion({ questionNumber, question, choices, onSelectedAnswer}) {
   const [selectedChoice, setSelectedChoice] = React.useState("");
 
   const handleChange = (event) => {
     setSelectedChoice(event.target.value);
+    onSelectedAnswer(event.target.labels[0].textContent);
   };
 
   return (
