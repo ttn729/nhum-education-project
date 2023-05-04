@@ -39,12 +39,18 @@ export default function OnlineMode({ data, error }) {
                   <TLQuestion
                     questionNumber={idx + 1}
                     question={col.Question}
+                    onSelectedAnswer={(answer) =>
+                      handleSelectedAnswer(answer, idx)
+                    }
                   />
                 ) : col.QuestionType === "Prompt" ? (
                   <PromptQuestion
                     questionNumber={idx + 1}
                     question={col.Question}
                     prompt={col.Prompt}
+                    onSelectedAnswer={(answer) =>
+                      handleSelectedAnswer(answer, idx)
+                    }
                   />
                 ) : (
                   <p>
