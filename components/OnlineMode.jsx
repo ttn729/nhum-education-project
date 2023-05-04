@@ -3,6 +3,7 @@ import MUIChoiceQuestion from "./MUIChoiceQuestion";
 import OnlineSubmit from "./OnlineSubmit";
 import TLQuestion from "./TLQuestion";
 import PromptQuestion from "./PromptQuestion";
+import ArraySwap from "./ArraySwap";
 
 export default function OnlineMode({ data, error }) {
   const [answers, setAnswers] = React.useState([]);
@@ -59,6 +60,8 @@ export default function OnlineMode({ data, error }) {
                 )}
               </div>
             ))}
+
+            <ArraySwap/>
       </div>
 
       <OnlineSubmit answers={answers} />
