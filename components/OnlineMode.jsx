@@ -20,7 +20,6 @@ export default function OnlineMode({ data, error }) {
           : data.map((col, idx) => (
               <div key={idx}>
                 {col.QuestionType === "MC" ? (
-                  <>
                     <MUIChoiceQuestion
                       key={idx}
                       questionNumber={idx + 1}
@@ -35,8 +34,6 @@ export default function OnlineMode({ data, error }) {
                         handleSelectedAnswer(answer, idx)
                       }
                     />
-                    <br />
-                  </>
                 ) : col.QuestionType === "TL" ? (
                   <>
                     <p>
