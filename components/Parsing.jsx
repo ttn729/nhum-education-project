@@ -1,24 +1,14 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
-import MultipleChoiceQuestion from "./MultipleChoiceQuestions";
-import MUIChoiceQuestion from "./MUIChoiceQuestion";
-import { FormControlLabel, Checkbox, Button, TextField } from "@mui/material";
+import { FormControlLabel, Checkbox, Button } from "@mui/material";
 
 // Allowed extensions for input file
 const allowedExtensions = ["csv"];
 
-export const Parsing = () => {
-  // This state will store the parsed data
-  const [data, setData] = useState([]);
-
-  // It state will contain the error when
-  // correct file extension is not used
-  const [error, setError] = useState("");
+export const Parsing = ({setData, setOnlineMode, setError}) => {
 
   // It will store the file uploaded by the user
   const [file, setFile] = useState("");
-
-  const [onlineMode, setOnlineMode] = React.useState(false);
 
   // This function will be called when
   // the file input changes
@@ -58,10 +48,11 @@ export const Parsing = () => {
       const csv = Papa.parse(target.result, { header: true });
       const parsedData = csv?.data;
       const columns = Object.keys(parsedData[0]);
+      console.log(parsedData);
       setData(parsedData);
     };
     reader.readAsText(file);
-    console.log(data);
+    
   };
 
   return (
@@ -78,73 +69,10 @@ export const Parsing = () => {
       <div>
         <Button onClick={handleParse}>Parse</Button>
         <FormControlLabel
-          control={<Checkbox defaultChecked />}
+          control={<Checkbox/>}
           onChange={(e) => setOnlineMode(e.target.checked)}
           label="Online"
         />
-      </div>
-      <div style={{ marginTop: "3rem" }}>
-        {error
-          ? error
-          : data.map((col, idx) => (
-              <div key={idx}>
-                {col.QuestionType === "MC" ? (
-                  <>
-                    {!onlineMode && (
-                      <>
-                        <p>
-                          {idx + 1}. {col.Question}
-                        </p>
-                        <p>
-                          A. {col.Choice1} &emsp; B. {col.Choice2} &emsp; C.
-                          {col.Choice3} &emsp; D. {col.Choice4}
-                        </p>
-                      </>
-                    )}
-                    {onlineMode && (
-                      <MUIChoiceQuestion
-                        key={idx}
-                        questionNumber={idx + 1}
-                        question={col.Question}
-                        choices={[
-                          col.Choice1,
-                          col.Choice2,
-                          col.Choice3,
-                          col.Choice4,
-                        ]}
-                      />
-                    )}
-                    <br />
-                  </>
-                ) : col.QuestionType === "TL" ? (
-                  <>
-                    <p>
-                      {idx + 1}. {col.Question}
-                    </p>
-                    <p>{".".repeat(col.Question.length * 1.5)}</p>
-                    <TextField fullWidth />
-                    <br />
-
-                    
-                  </>
-                ) : col.QuestionType === "Prompt" ? (
-                  <>
-                    <p>
-                      {idx + 1}. {col.Question}
-                    </p>
-                    <p>
-                      {col.Prompt} {".".repeat(col.Question.length * 1.5)}
-                    </p>
-                    <TextField fullWidth />
-                    <br />
-                  </>
-                ) : (
-                  <p>
-                    {idx + 1}. {col.Question}
-                  </p>
-                )}
-              </div>
-            ))}
       </div>
     </div>
   );
