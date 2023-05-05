@@ -4,6 +4,7 @@ import OnlineSubmit from "./OnlineSubmit";
 import TLQuestion from "./TLQuestion";
 import PromptQuestion from "./PromptQuestion";
 import ArraySwap from "./ArraySwap";
+import { Box } from "@mui/material";
 
 export default function OnlineMode({ data, error }) {
   const [answers, setAnswers] = React.useState([]);
@@ -16,7 +17,7 @@ export default function OnlineMode({ data, error }) {
 
   return (
     <>
-      <div style={{ marginTop: "3rem" }}>
+      <Box sx={{ display: "flex", flexDirection: "column", mt: "3", gap: 3}}>
         {error
           ? error
           : data.map((col, idx) => (
@@ -68,7 +69,7 @@ export default function OnlineMode({ data, error }) {
                 )}
               </div>
             ))}
-      </div>
+      </Box>
 
       <OnlineSubmit answers={answers} />
     </>

@@ -7,7 +7,7 @@ function MultipleChoiceQuestion({ question, choices }) {
       {choices.map((choice, idx) => (
         <label key={idx}>
           <input type="radio" name={question} value={choice} />
-          {choice} &emsp;
+          <p>{choice} &emsp;</p>
         </label>
       ))}
     </div>
