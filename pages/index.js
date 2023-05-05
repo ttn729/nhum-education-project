@@ -72,7 +72,7 @@ export default function Home() {
         onSliderChange={handleSliderChange}
       />
 
-      <Button onClick={onClickRandom}>Randomize</Button>
+      {data.length > 0 && <Button onClick={onClickRandom}>Randomize</Button>}
 
       {randomize ? (
         onlineMode ? (
