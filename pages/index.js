@@ -8,6 +8,15 @@ import { QuestionTypeSlider } from "@/components/QuestionTypeSlider";
 
 const inter = Inter({ subsets: ["latin"] });
 
+function shuffle(array) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 export default function Home() {
   // This state will store the parsed data
   const [data, setData] = useState([]);
@@ -24,15 +33,28 @@ export default function Home() {
 
   const [sliderValues, setSliderValues] = useState({});
 
+  const [filteredQuestions, setFilteredQuestions] = useState([]);
+
   // callback function to receive updated slider values from QuestionTypeSlider component
   const handleSliderChange = (newSliderValues) => {
     setSliderValues(newSliderValues);
   };
 
   function onClickRandom() {
-    console.log(sliderValues);
+    // Shuffle the questions
+    const shuffledData = shuffle(data);
+  
+    // Pick questions based on slider values
+    const filteredQuestions = Object.keys(sliderValues).flatMap(type =>
+      shuffledData.filter(q => q.QuestionType === type).slice(0, sliderValues[type])
+    );
+  
+    setFilteredQuestions(filteredQuestions);
+  
     setRandomize(!randomize);
   }
+  
+  
 
   return (
     <main
@@ -46,7 +68,7 @@ export default function Home() {
       />
 
       <QuestionTypeSlider
-        questionTypeCounts={{ MC: 7, Rearrange: 8, Prompt: 5 }}
+        questionTypeCounts={questionTypes}
         onSliderChange={handleSliderChange}
       />
 
@@ -54,9 +76,9 @@ export default function Home() {
 
       {randomize ? (
         onlineMode ? (
-          <OnlineMode data={data} error={error} />
+          <OnlineMode data={filteredQuestions} error={error} />
         ) : (
-          <OfflineMode data={data} error={error} />
+          <OfflineMode data={filteredQuestions} error={error} />
         )
       ) : null}
     </main>
