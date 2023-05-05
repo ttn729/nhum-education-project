@@ -6,7 +6,7 @@ import { FormControlLabel, Checkbox, Button } from "@mui/material";
 // Allowed extensions for input file
 const allowedExtensions = ["csv"];
 
-export const Parsing = ({setData, setOnlineMode, setError}) => {
+export const Parsing = ({setData, setOnlineMode, setError, setQuestionTypes}) => {
 
   // It will store the file uploaded by the user
   const [file, setFile] = useState("");
@@ -52,6 +52,15 @@ export const Parsing = ({setData, setOnlineMode, setError}) => {
       const parsedData = csv?.data;
       const columns = Object.keys(parsedData[0]);
       console.log(parsedData);
+
+      const countByQuestionType = parsedData.reduce((count, question) => {
+        const questionType = question.QuestionType;
+        return { ...count, [questionType]: (count[questionType] || 0) + 1 };
+      }, {});
+      
+      setQuestionTypes(countByQuestionType);
+      console.log(countByQuestionType);
+
       setData(parsedData);
     };
     reader.readAsText(file);
