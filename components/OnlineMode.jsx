@@ -17,7 +17,7 @@ export default function OnlineMode({ data, error }) {
 
   return (
     <>
-      <Box sx={{ display: "flex", flexDirection: "column", mt: "3", gap: 3}}>
+      <Box sx={{ display: "flex", flexDirection: "column", mt: "3", gap: 3 }}>
         {error
           ? error
           : data.map((col, idx) => (
@@ -38,13 +38,13 @@ export default function OnlineMode({ data, error }) {
                     }
                   />
                 ) : col.QuestionType === "TL" ? (
-                    <TLQuestion
-                      questionNumber={idx + 1}
-                      question={col.Question}
-                      onSelectedAnswer={(answer) =>
-                        handleSelectedAnswer(answer, idx)
-                      }
-                    />
+                  <TLQuestion
+                    questionNumber={idx + 1}
+                    question={col.Question}
+                    onSelectedAnswer={(answer) =>
+                      handleSelectedAnswer(answer, idx)
+                    }
+                  />
                 ) : col.QuestionType === "Rearrange" ? (
                   <ArraySwap
                     questionNumber={idx + 1}

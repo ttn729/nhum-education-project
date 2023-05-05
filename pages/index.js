@@ -22,9 +22,16 @@ export default function Home() {
 
   const [questionTypes, setQuestionTypes] = useState([]);
 
-  function onClickRandom() {
+  const [sliderValues, setSliderValues] = useState({});
 
-    setRandomize(!randomize)
+  // callback function to receive updated slider values from QuestionTypeSlider component
+  const handleSliderChange = (newSliderValues) => {
+    setSliderValues(newSliderValues);
+  };
+
+  function onClickRandom() {
+    console.log(sliderValues);
+    setRandomize(!randomize);
   }
 
   return (
@@ -38,7 +45,10 @@ export default function Home() {
         setQuestionTypes={setQuestionTypes}
       />
 
-      <QuestionTypeSlider questionTypes={questionTypes}/>
+      <QuestionTypeSlider
+        questionTypeCounts={{ MC: 7, Rearrange: 8, Prompt: 5 }}
+        onSliderChange={handleSliderChange}
+      />
 
       <Button onClick={onClickRandom}>Randomize</Button>
 
