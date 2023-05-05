@@ -37,7 +37,15 @@ export default function OnlineMode({ data, error }) {
                     }
                   />
                 ) : col.QuestionType === "TL" ? (
-                  <TLQuestion
+                    <TLQuestion
+                      questionNumber={idx + 1}
+                      question={col.Question}
+                      onSelectedAnswer={(answer) =>
+                        handleSelectedAnswer(answer, idx)
+                      }
+                    />
+                ) : col.QuestionType === "Rearrange" ? (
+                  <ArraySwap
                     questionNumber={idx + 1}
                     question={col.Question}
                     onSelectedAnswer={(answer) =>
@@ -60,8 +68,6 @@ export default function OnlineMode({ data, error }) {
                 )}
               </div>
             ))}
-
-            <ArraySwap/>
       </div>
 
       <OnlineSubmit answers={answers} />

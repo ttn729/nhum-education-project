@@ -1,17 +1,18 @@
 import { Box } from "@mui/material";
 import React, { useState } from "react";
 
-function ArraySwap() {
-  const [questions, setQuestions] = useState([
-    "nếu",
-    "anh",
-    "không",
-    "phiền",
-    "làm",
-    "người yêu",
-    "em",
-    "đi",
-  ]);
+// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+function ArraySwap({ questionNumber, question, onSelectedAnswer  }) {
+  let words = question.split("/");
+  shuffleArray(words);
+  const [questions, setQuestions] = useState(words);
   const [answers, setAnswers] = useState([]);
 
   const handleSwap = (index, source, destination) => {
@@ -20,34 +21,38 @@ function ArraySwap() {
     destination.push(item);
     setQuestions([...questions]);
     setAnswers([...answers]);
+
+    if (questions.length == 0) {
+        onSelectedAnswer(answers.join(''))
+    }
+    
   };
 
   return (
     <div>
-      <h3>Questions:</h3>
-      <div style={{ display: "flex" }}>
+      <p>{questionNumber}.</p>
+      <Box sx={{ display: "flex"}}>
         {questions.map((question, index) => (
           <Box
-            sx={{ backgroundColor: "aliceblue" }}
+            sx={{ backgroundColor: "aliceblue", border: '1px solid #84c5fe', padding: 2 }}
             key={index}
             onClick={() => handleSwap(index, questions, answers)}
             style={{ marginRight: "10px" }}
           >
-            {question}
+            <p>{question}</p>
           </Box>
         ))}
-      </div>
+      </Box>
 
-      <h3>Answers:</h3>
-      <Box sx={{ display: "flex", backgroundColor: "aliceblue" }}>
+      <Box sx={{ display: "flex", backgroundColor: "aliceblue", minHeight: '2vw', mt:2 }}>
         {answers.map((answer, index) => (
           <Box
-            sx={{ backgroundColor: "skyblue" }}
+            sx={{ backgroundColor: "skyblue", padding: 2 }}
             key={index}
             onClick={() => handleSwap(index, answers, questions)}
-            style={{ marginRight: "10px" }}
+            style={{ marginRight: "20px" }}
           >
-            {answer}
+            <p>{answer}</p>
           </Box>
         ))}
       </Box>

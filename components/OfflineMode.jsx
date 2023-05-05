@@ -18,7 +18,7 @@ export default function OfflineMode({ data, error }) {
 
                   <br />
                 </>
-              ) : col.QuestionType === "TL" ? (
+              ) : col.QuestionType === "TL" || col.QuestionType === "Rearrange" ? (
                 <>
                   <p>
                     {idx + 1}. {col.Question}
