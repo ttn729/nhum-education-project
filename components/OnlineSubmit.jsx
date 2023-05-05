@@ -7,12 +7,11 @@ export default function OnlineSubmit({ answers }) {
 
   return (
     <>
+      <Button onClick={() => setShow(!show)}>
+        Submit Assignment / Show Answers
+      </Button>
       {show && (
         <>
-          <Button onClick={() => setShow(!show)}>
-            Submit Assignment / Show Answers
-          </Button>
-
           <div>
             {output.map((item) => (
               <h1 key={item}>{item}</h1>
